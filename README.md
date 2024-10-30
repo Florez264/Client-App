@@ -2,6 +2,20 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.7.
 
+
+## Requisitos previos
+
+Asegúrate de tener instalados:
+- [Node.js](https://nodejs.org/) (recomendado LTS)
+- [Angular CLI](https://angular.io/cli) versión 18.0.7 o superior
+
+## Instalación de dependencias
+
+1. Clona el repositorio del proyecto:
+
+   git clone <url-del-repositorio>
+
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.

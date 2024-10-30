@@ -1,0 +1,124 @@
+<div class="min-h-screen bg-gray-50 py-8 px-4">
+  <div class="max-w-5xl mx-auto">
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+      <div class="bg-gradient-to-r from-purple-500 to-blue-500 p-6">
+        <div class="flex justify-between items-center">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-users text-white text-2xl"></i>
+            <h2 class="text-xl font-semibold text-white">Gestión de Clientes</h2>
+          </div>
+          <app-modal #modal>
+            <app-registrar-cliente (clienteRegistrado)="onClienteRegistrado($event)"></app-registrar-cliente>
+          </app-modal>
+          <button pButton type="button" class="bg-white text-purple-600 px-4 py-2 rounded-lg hover:bg-purple-50 transition duration-200" (click)="modal.open()">
+            <i class="fas fa-plus mr-2"></i> Nuevo Cliente
+          </button>
+        </div>
+      </div>
+
+      <div class="p-6">
+        <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="mb-6 flex items-center">
+          <div class="relative group flex-grow">
+            <input
+              pInputText
+              formControlName="searchTerm"
+              class="w-96 pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-200"
+              placeholder="Buscar por nombre, apellido, email o celular..."
+            />
+            <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-hover:text-purple-500 transition-colors duration-200"></i>
+          </div>
+          <button
+            type="button"
+            class="ml-2 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-200"
+            (click)="onClear()"
+            *ngIf="clientes.length < allClientes.length"
+          >
+            Limpiar
+          </button>
+        </form>
+
+        <p-table
+          [value]="clientes"
+          [paginator]="true"
+          [rows]="10"
+          [rowsPerPageOptions]="[10, 20, 50]"
+          [sortable]="true"
+          class="overflow-hidden rounded-lg border border-gray-200"
+        >
+          <ng-template pTemplate="header">
+            <tr class="bg-gray-50">
+              <th pSortableColumn="nombre" class="py-3 px-4 text-left text-sm font-medium text-gray-600">
+                Nombre <p-sortIcon field="nombre"></p-sortIcon>
+              </th>
+              <th pSortableColumn="apellido" class="py-3 px-4 text-left text-sm font-medium text-gray-600">
+                Apellido <p-sortIcon field="apellido"></p-sortIcon>
+              </th>
+              <th pSortableColumn="email" class="py-3 px-4 text-left text-sm font-medium text-gray-600">
+                Email <p-sortIcon field="email"></p-sortIcon>
+              </th>
+              <th pSortableColumn="celular" class="py-3 px-4 text-left text-sm font-medium text-gray-600">
+                Celular <p-sortIcon field="celular"></p-sortIcon>
+              </th>
+              <th pSortableColumn="direccion" class="py-3 px-4 text-left text-sm font-medium text-gray-600">
+                Dirección <p-sortIcon field="direccion"></p-sortIcon>
+              </th>
+              <th class="py-3 px-4 text-left text-sm font-medium text-gray-600">Acciones</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-cliente>
+            <tr class="border-t border-gray-100 hover:bg-purple-50/30 transition-colors duration-150">
+              <td class="py-3 px-4">
+                <div class="flex items-center">
+                  <div class="w-8 h-8 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center mr-3">
+                    {{ cliente.nombre.charAt(0).toUpperCase() }}
+                  </div>
+                  {{ cliente.nombre }}
+                </div>
+              </td>
+              <td class="py-3 px-4">{{ cliente.apellido }}</td>
+              <td class="py-3 px-4">
+                <div class="flex items-center">
+                  <i class="fas fa-envelope text-gray-400 mr-2"></i>
+                  {{ cliente.email }}
+                </div>
+              </td>
+              <td class="py-3 px-4">
+                <div class="flex items-center">
+                  <i class="fas fa-phone text-gray-400 mr-2"></i>
+                  {{ cliente.celular }}
+                </div>
+              </td>
+              <td class="py-3 px-4">
+                <div class="flex items-center">
+                  <i class="fas fa-map-marker-alt text-gray-400 mr-2"></i>
+                  {{ cliente.direccion }}
+                </div>
+              </td>
+              <td class="py-3 px-4">
+                <div class="flex gap-2">
+                  <button class="p-2 bg-white border border-purple-200 text-purple-600 rounded-lg hover:bg-purple-50 transition-colors duration-200" title="Editar">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="p-2 bg-white border border-red-200 text-red-600 rounded-lg hover:bg-red-50 transition-colors duration-200" title="Eliminar">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="6" class="py-3 px-4 text-center text-gray-500">No se encontraron resultados</td>
+            </tr>
+          </ng-template>
+        </p-table>
+
+        <div class="flex flex-col md:flex-row justify-between items-center mt-6 gap-4">
+          <div class="text-sm text-gray-600">
+            Mostrando <span class="font-medium">{{ clientes.length }}</span> clientes
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
